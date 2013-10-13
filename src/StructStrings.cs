@@ -73,24 +73,23 @@ namespace StructStrings {
 		public bool Equals( String16 other ) {return _2 == other._2 && _1 == other._1;}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( object obj ) {
-			String16 b = ( String16 ) obj;
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
+			var b = ( String16 ) obj;
+		    var cmp = this._1.CompareTo( b._1 );
 			return cmp != 0 ? cmp : this._2.CompareTo( b._2 );
 		}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( String16 b ) {
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
-			return cmp != 0 ? cmp : this._2.CompareTo( b._2 );
+		    var cmp = this._1.CompareTo( b._1 );
+		    return cmp != 0 ? cmp : this._2.CompareTo( b._2 );
 		}
-		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
+
+	    [MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public static int Compare( String16 a, String16 b ) {
-			int cmp = 0;
-			cmp = a._1.CompareTo( b._1 );
-			return cmp != 0 ? cmp : a._2.CompareTo( b._2 );
-		}
-		#endregion
+	        var cmp = a._1.CompareTo( b._1 );
+	        return cmp != 0 ? cmp : a._2.CompareTo( b._2 );
+	    }
+
+	    #endregion
 		#region String conversions
 		public static String16 FromString( string s ) {
 			fixed ( char* rc = s ) {
@@ -133,25 +132,22 @@ namespace StructStrings {
 		public bool Equals( String24 other ) {return _3 == other._3 && _2 == other._2 && _1 == other._1;}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( object obj ) {
-			String24 b = ( String24 ) obj;
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
+			var b = ( String24 ) obj;
+		    var cmp = this._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = this._2.CompareTo( b._2 );
 			return cmp != 0 ? cmp : this._3.CompareTo( b._3 );
 		}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( String24 b ) {
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
+		    var cmp = this._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = this._2.CompareTo( b._2 );
 			return cmp != 0 ? cmp : this._3.CompareTo( b._3 );
 		}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
-		public unsafe static int Compare( String24 a, String24 b ) {
-			int cmp = 0;
-			cmp = a._1.CompareTo( b._1 );
+		public static int Compare( String24 a, String24 b ) {
+		    var cmp = a._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = a._2.CompareTo( b._2 );
 			return cmp != 0 ? cmp : a._3.CompareTo( b._3 );
@@ -199,9 +195,8 @@ namespace StructStrings {
 		public bool Equals( String32 other ) {return _4 == other._4 && _3 == other._3 && _2 == other._2 && _1 == other._1;}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( object obj ) {
-			String32 b = ( String32 ) obj;
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
+			var b = ( String32 ) obj;
+		    var cmp = this._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = this._2.CompareTo( b._2 );
 			if ( cmp != 0 ) return cmp;
@@ -210,8 +205,7 @@ namespace StructStrings {
 		}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
 		public int CompareTo( String32 b ) {
-			int cmp = 0;
-			cmp = this._1.CompareTo( b._1 );
+		    var cmp = this._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = this._2.CompareTo( b._2 );
 			if ( cmp != 0 ) return cmp;
@@ -219,9 +213,8 @@ namespace StructStrings {
 			return cmp != 0 ? cmp : this._4.CompareTo( b._4 );
 		}
 		[MethodImplAttribute( MethodImplOptions.AggressiveInlining )]
-		public unsafe static int Compare( String32 a, String32 b ) {
-			int cmp = 0;
-			cmp = a._1.CompareTo( b._1 );
+		public static int Compare( String32 a, String32 b ) {
+		    var cmp = a._1.CompareTo( b._1 );
 			if ( cmp != 0 ) return cmp;
 			cmp = a._2.CompareTo( b._2 );
 			if ( cmp != 0 ) return cmp;
@@ -243,37 +236,25 @@ namespace StructStrings {
 	}
 	internal static class Helper {
 		internal static unsafe void FillAsciiBytes( byte* to, char* from, int count, int size ) {
-			byte* read = ( ( byte* ) from );//read from
-			byte* end = to + size - 1;						//struct end
-			byte* write = end - Math.Min( size, count ) - 1;	//write end
+			var read = ( ( byte* ) from );//read from
+			var end = to + size - 1;						//struct end
+			var write = end - Math.Min( size, count ) - 1;	//write end
 			while ( end > write ) {
 				*end = *read;
 				--end; read += sizeof( char );
-			};
-			while ( end > to ) {
+			}
+		    while ( end > to ) {
 				*end-- = 0;
 			}
 		}
 		internal static unsafe string ToString( byte* read, int count ) {
-			int cnt = 0;
-			byte* end = read + count - 1;
+			var cnt = 0;
+			var end = read + count - 1;
 			byte tmp;
-			char[] output = new char[ count ];
+			var output = new char[ count ];
 			while ( end > read && ( tmp = *( end-- ) ) != 0 )
 				output[ cnt++ ] = ( char ) tmp;
 			return new String( output, 0, cnt );
-		}
-		private static unsafe int Compare( ulong* a, ulong* b, int count ) {
-			ulong* enda = a + count - 1;
-			b = b + count - 1;
-			int cmp = 0;
-			while ( enda >= a ) {
-				cmp = enda->CompareTo( *b );
-				if ( cmp != 0 )
-					return cmp;
-				--enda; --b;
-			}
-			return 0;
 		}
 	}
 }
